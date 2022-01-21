@@ -5,7 +5,8 @@ from tkinter.constants import END
 from tkinter import Text, messagebox
 from tkinter import ttk
 import mysql.connector
-pd.options.display.max_colwidth = 90
+pd.options.display.max_colwidth = 200
+#pd.set_option('display.max_columns', None)
 
 
 #Database connection
@@ -51,30 +52,30 @@ root.resizable(0,0)
 #Search for account
 def search_for():
     if len(account_entry.get()) != 0:
-        acct_num_query  ="SELECT Client_Code, Account_Number, Username, Password, Utility_Company, Vendor_URL FROM Master_Accounts WHERE Account_Number LIKE '%{}'".format(account_entry.get())
+        acct_num_query  ="SELECT Account_Number, Username, Password, Utility_Company, Vendor_URL FROM Master_Accounts WHERE Account_Number LIKE '%{}'".format(account_entry.get())
         mycursor.execute(acct_num_query)
         acct_num_result = mycursor.fetchall()
         for num in acct_num_result:
             single_accts_list.append(num)
 
         acct_df =  pd.DataFrame(single_accts_list)
-        acct_df.columns = [['Client Code', 'Account No.', 'Username', 'Password', 'Vendor', 'Vendor URL']]
-        acct_df.style.hide_index()
+        acct_df.columns = [[ 'Account No.', 'Username', 'Password', 'Vendor', 'Vendor URL']]
+        #acct_df.style.hide_index()
         results_txt.insert('1.0', acct_df)
         results_txt.pack()
     elif client_input.get() == "Client" or vend_input.get() == "Vendor":
         messagebox.askretrycancel("WARNING", "Please select a client and vendor.")
     else:
         print("test")
-        account_query = "SELECT Client_Code, Account_Number, Username, Password, Utility_Company, Vendor_URL FROM Master_Accounts WHERE Client_Name = '{}' AND Vendor = '{}' ".format(client_input.get(), vend_input.get())
+        account_query = "SELECT Account_Number, Username, Password, Utility_Company, Vendor_URL FROM Master_Accounts WHERE Client_Name = '{}' AND Vendor = '{}' ".format(client_input.get(), vend_input.get())
         mycursor.execute(account_query)
         account_result = mycursor.fetchall()
         print(account_query)
         for x in account_result:
             multi_accts_list.append(x)
         df = pd.DataFrame(multi_accts_list)
-        df.columns = ['Client Code', 'Account No.', 'Username', 'Password', 'Vendor', 'Vendor URL']
-        df.style.hide_index()
+        df.columns = ['Account No.', 'Username', 'Password', 'Vendor', 'Vendor URL']
+        #df.style.hide_index()
         results_txt.insert('1.0', df)
 
     
