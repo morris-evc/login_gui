@@ -5,8 +5,10 @@ from tkinter.constants import END
 from tkinter import Text, messagebox
 from tkinter import ttk
 import mysql.connector
-pd.options.display.max_colwidth = 200
+#pd.options.display.max_colwidth = 200
 #pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 200)
+pd.set_option('display.max_rows', None)
 
 
 #Database connection
